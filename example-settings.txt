@@ -89,13 +89,13 @@ useGPU=true
 useMail=false
 
 # Your maildrill API key
-mandrill_key="myeKxzrldLW6TBo-4VHHXA"
+mandrill_key="YOUR_MANDRILL_API_KEY"
 
 # Sender email address
-from_email="freesurfer@thomasemmerling.de"
+from_email="from@domain.tld"
 
 # Receiver email address
-to_email="thomasemmerling@me.com"
+to_email="to@domain.tld"
 
 # Reply email address
 reply_to="$from_email"
