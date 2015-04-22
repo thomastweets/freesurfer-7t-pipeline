@@ -1,0 +1,107 @@
+#===============================================================================
+# Settings for freesurfer-7T-pipeline (fs-recon-7T.sh)
+#===============================================================================
+
+# Specify the path to your data
+PROJECTBASEPATH="/path/to/your/data"
+
+# file separator character (always '/' on linux/osx)
+F="/"
+
+# Specify the subjects that should be processed (separated by spaces); these
+# should correspond to the naming of the folders in your $PROJECTBASEPATH
+SUBJECTS="subject1 subject2 subject3"
+
+# Specify the number of the run containing the anatomical volume (with respect to the beginning of the scanning session)
+runAnatomy=5
+
+# Specify the number of the run containing the proton-density volume (with respect to the beginning of the scanning session)
+runPD=6
+
+#===============================================================================
+# Flags for processing steps
+#===============================================================================
+# Ask the user to check talairach transformation and skull stripping?
+flag_askQuestions=true
+
+# Do the DICOM conversion?
+flag_conversion=true
+
+# Do a rigid-body co-registration using FSL FLIRT between anatomy and pd volume?
+# CAUTION: FSL needs to be installed (and in the PATH)
+flag_alignPD=true
+
+# Do the import of the divPDm.mgz file into the fs dir?
+flag_reconRegister=true
+
+# Do the recon for downsampled data (1mm)?
+flag_reconDownsampled=true
+
+# Until which step should I proceed in the downsampled (1mm) routines?
+# "Step 1: motion correction and talairach transformation..."
+# "Step 2: nu correction (go, get a coffee, this will take a while)..."
+# "Step 3: normalization..."
+# "Step 4: skull stripping..."
+# "Step 5: autorecon2 and autorecon3 (go, get a coffee, this will take a while)..."
+ENDSTATUS1mm=5
+
+# Do the recon for the (normal) dataset?
+flag_recon=true
+
+# Until which step should I proceed in the (normal) routines?
+# "Step 1: motion correction and talairach transformation..."
+# "Step 2: nu correction (go, get a coffee, this will take a while)..."
+# "Step 3: normalization..."
+# "Step 4: skull stripping..."
+# "Step 5: gcareg and canorm..."
+# "Step 6: normalize..."
+# "Step 7: maskbfs and segmentation..."
+# "Step 8: Smooth and inflate for LH and RH..."
+# "Step 9: smooth and autorecon3..."
+ENDSTATUS=9
+
+#===============================================================================
+# Flags for the back-transformation
+#===============================================================================
+# Do the back-transformation into native space (flag has priority over the next two flags)?
+flag_backTransform=true
+
+# Back-transform the T1.mgz file for BrainVoyager
+flag_backTransformT1=true
+
+# Back-transform the ribbon.mgz file for BrainVoyager
+flag_backTransformRibbon=true
+
+#===============================================================================
+# Computation parameters
+#===============================================================================
+# Number of processors to use
+nProc=4
+
+# Use GPU acceleration?
+useGPU=true
+
+
+#===============================================================================
+# Setting for using mail notifications
+#===============================================================================
+# Use mail notifications?
+useMail=false
+
+# Your maildrill API key
+mandrill_key="myeKxzrldLW6TBo-4VHHXA"
+
+# Sender email address
+from_email="freesurfer@thomasemmerling.de"
+
+# Receiver email address
+to_email="thomasemmerling@me.com"
+
+# Reply email address
+reply_to="$from_email"
+
+# "From" name
+from_name="Freesurfer recon pipeline"
+
+# Mail subject
+mail_subject="Freesurfer Recon Pipeline"
