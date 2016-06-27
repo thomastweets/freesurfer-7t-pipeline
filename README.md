@@ -4,6 +4,15 @@ Thomas Emmerling - Maastricht University
 
 This bash script makes use of the Freesurfer 5.3 recon-all pipeline (https://surfer.nmr.mgh.harvard.edu/fswiki/ReconAllDevTable) for creating volume segmentations and surface reconstructions from anatomical DICOMs. However, in contrast to the standard recon-all pipeline it is optimized for __sub-millimeter resolution data coming from (*e.g.*) 7T scanners__. It relies heavily on the work of Falk Lüsebrink (https://surfer.nmr.mgh.harvard.edu/fswiki/HiResRecon, http://www.ncbi.nlm.nih.gov/pubmed/23261638). If wanted, the script will automatically pause and notify you via mail to let you check the Talairach transformation and the skull stripping. It will also offer some automatic correction options. Furthermore it converts some output files to the NIfTI format with intensity values optimized for usage in BrainVoyager QX (http://www.brainvoyager.com/).
 
+## UPDATE: Freesurfer v6b
+[Ed Gronenschild](mailto:ed.gronenschild@maastrichtuniversity.nl) has contributed some experiences on segmenting 7T MP2RAGE anatomicals in Freesurfer v6b:
+- crop INV2 and UNI images by removing the neck
+- use BET (option `-AR -f 0.2`) to skullstrip INV2
+- use outer skull mask of INV2 to clean UNI
+- run `recon-all -autorecon1` with correction for nun-uniformities (`nu-correct`) with only one iteration (I have the impression that option `-nouintensitycor` doesn't work, so I supplied an expert options file with text: `mri_nu_correct.mni --proto-iters 1 --distance 25 --n 1 --fwhm 0.15`). Took about 25 min on MacPro
+- manually edit brainmask.mgz
+- run `recon-all -autorecon2 -autorecon3`. Took 30 - 35 hours on MacPro
+
 ## Features
 - fully configurable via textfile
 - automatic pausing at critical steps that require inspection (+ guided interaction)
