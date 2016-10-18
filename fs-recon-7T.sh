@@ -28,7 +28,7 @@ red='\033[0;31m'
 green='\033[0;32m'
 NC='\033[0m'
 
-if [ "$flag_reconRegister" = true ]; then
+if [ "$useGPU" = true ]; then
   GPU="-use-gpu"
 else
   GPU=""
