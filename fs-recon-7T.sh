@@ -29,7 +29,7 @@ green='\033[0;32m'
 NC='\033[0m'
 
 if [ "$useGPU" = true ]; then
-  GPU="-use-gpu"
+  GPU="-use-gpu "
 else
   GPU=""
 fi
@@ -182,7 +182,7 @@ for subject in $SUBJECTS
     readStatus
     if [ $STATUS -lt 1 ] && [ $STATUS -lt $ENDSTATUS1mm ]; then
       printStep "Step 1: motion correction and talairach transformation..."
-      recon-all -motioncor -talairach -tal-check $GPU -openmp $nProc -subjid $SUBJ
+      recon-all -motioncor -talairach -tal-check $GPU-openmp $nProc -subjid $SUBJ
 
       if [ "$flag_askQuestions" = true ]; then
         #freeview -v $SUBJECTS_DIR$F$SUBJ$F"mri"$F"orig.mgz":reg=$SUBJECTS_DIR$F$SUBJ$F"mri"$F"transforms"$F"talairach.xfm" &
@@ -236,14 +236,14 @@ for subject in $SUBJECTS
     readStatus
     if [ $STATUS -lt 3 ] && [ $STATUS -lt $ENDSTATUS1mm ]; then
       printStep "Step 3: normalization..."
-      recon-all -mprage -normalization $GPU -openmp $nProc -subjid $SUBJ
+      recon-all -mprage -normalization $GPU-openmp $nProc -subjid $SUBJ
       writeStatus 3
     fi
 
     readStatus
     if [ $STATUS -lt 4 ] && [ $STATUS -lt $ENDSTATUS1mm ]; then
       printStep "Step 4: skull stripping..."
-      recon-all -mprage -skullstrip $GPU -openmp $nProc -subjid $SUBJ
+      recon-all -mprage -skullstrip $GPU-openmp $nProc -subjid $SUBJ
 
       if [ "$flag_askQuestions" = true ]; then
         notifyMail "Subject $SUBJ - Step 3: skull stripping was completed. Please check skull strip!"
@@ -304,7 +304,7 @@ for subject in $SUBJECTS
     readStatus
     if [ $STATUS -lt 5 ] && [ $STATUS -lt $ENDSTATUS1mm ]; then
       printStep "Step 5: autorecon2 and autorecon3 (go, get a coffee, this will take a while)..."
-      recon-all -autorecon2 -autorecon3 -mprage $GPU -openmp $nProc -subjid $SUBJ
+      recon-all -autorecon2 -autorecon3 -mprage $GPU-openmp $nProc -subjid $SUBJ
       writeStatus 5
     fi
 
@@ -330,7 +330,7 @@ for subject in $SUBJECTS
     readStatus
     if [ $STATUS -lt 1 ] && [ $STATUS -lt $ENDSTATUS ]; then
       printStep "Step 1: motion correction and talairach transformation..."
-      recon-all -motioncor -talairach -tal-check $GPU -openmp $nProc -subjid $SUBJ
+      recon-all -motioncor -talairach -tal-check $GPU-openmp $nProc -subjid $SUBJ
 
       if [ "$flag_askQuestions" = true ]; then
         #freeview -v $SUBJECTS_DIR$F$SUBJ$F"mri"$F"orig.mgz":reg=$SUBJECTS_DIR$F$SUBJ$F"mri"$F"transforms"$F"talairach.xfm" &
@@ -384,7 +384,7 @@ for subject in $SUBJECTS
     readStatus
     if [ $STATUS -lt 3 ] && [ $STATUS -lt $ENDSTATUS ]; then
       printStep "Step 3: normalization..."
-      recon-all -cm -mprage -normalization $GPU -openmp $nProc -subjid $SUBJ
+      recon-all -cm -mprage -normalization $GPU-openmp $nProc -subjid $SUBJ
       writeStatus 3
     fi
 
@@ -419,7 +419,7 @@ for subject in $SUBJECTS
     readStatus
     if [ $STATUS -lt 5 ] && [ $STATUS -lt $ENDSTATUS ]; then
       printStep "Step 5: gcareg and canorm..."
-      recon-all -gcareg -canorm $GPU -openmp $nProc -subjid $SUBJ
+      recon-all -gcareg -canorm $GPU-openmp $nProc -subjid $SUBJ
       writeStatus 5
     fi
 
@@ -436,7 +436,7 @@ for subject in $SUBJECTS
     readStatus
     if [ $STATUS -lt 7 ] && [ $STATUS -lt $ENDSTATUS ]; then
       printStep "Step 7: maskbfs and segmentation..."
-      recon-all -maskbfs -segmentation -fill -tessellate $GPU -openmp $nProc -subjid $SUBJ
+      recon-all -maskbfs -segmentation -fill -tessellate $GPU-openmp $nProc -subjid $SUBJ
       writeStatus 7
     fi
 
@@ -445,10 +445,10 @@ for subject in $SUBJECTS
       printStep "Step 8: Smooth and inflate for LH and RH..."
       recon-all -smooth1 -inflate1 -qsphere -hemi lh \
         -log $SUBJECTS_DIR$F$SUBJ$F"scripts"$F"recon-all.lh.log" \
-        $GPU -openmp $nProc -subjid $SUBJ &
+        $GPU-openmp $nProc -subjid $SUBJ &
       recon-all -smooth1 -inflate1 -qsphere -hemi rh \
         -log $SUBJECTS_DIR$F$SUBJ$F"scripts"$F"recon-all.rh.log" \
-        $GPU -openmp $nProc -subjid $SUBJ &
+        $GPU-openmp $nProc -subjid $SUBJ &
       wait
 
       # This is just a poor work-around as the stage "fix" of recon-all might take weeks to finish...
@@ -464,10 +464,10 @@ for subject in $SUBJECTS
       printStep "Step 9: smooth and autorecon3..."
       recon-all -white -smooth2 -inflate2 -autorecon3 -hemi lh \
         -log $SUBJECTS_DIR$F$SUBJ$F"scripts"$F"recon-all.lh.log" \
-        $GPU -openmp $nProc -subjid $SUBJ &
+        $GPU-openmp $nProc -subjid $SUBJ &
       recon-all -white -smooth2 -inflate2 -autorecon3 -hemi rh \
         -log $SUBJECTS_DIR$F$SUBJ$F"scripts"$F"recon-all.rh.log" \
-        $GPU -openmp $nProc -subjid $SUBJ &
+        $GPU-openmp $nProc -subjid $SUBJ &
 
       wait
       writeStatus 9
